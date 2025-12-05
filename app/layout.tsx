@@ -14,18 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ghosted - Track Job Application Ghosting",
-  description: "Track which companies ghost you during job applications. See ghosting stats, get closure, and know you're not alone.",
-  keywords: ["job search", "ghosting", "job applications", "career", "hiring", "recruiter"],
+  title: "Ghosted - Which Companies Ghost Job Applicants",
+  description: "See which companies ghost job applicants. Anonymous community reports expose the worst ghosters. Track your own applications and hold companies accountable.",
+  keywords: ["job search", "ghosting", "job applications", "career", "hiring", "recruiter", "glassdoor", "company reviews", "interview ghosting"],
   openGraph: {
-    title: "Ghosted - Track Job Application Ghosting",
-    description: "44% of job seekers get ghosted. Track your applications and see you're not alone.",
+    title: "Ghosted - Which Companies Ghost Job Applicants",
+    description: "Community-sourced data on which companies ghost job applicants. 5,000+ reports. See the Wall of Shame.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ghosted - Track Job Application Ghosting",
-    description: "44% of job seekers get ghosted. Track your applications and see you're not alone.",
+    title: "Ghosted - Which Companies Ghost Job Applicants",
+    description: "Community-sourced data on which companies ghost job applicants. 5,000+ reports. See the Wall of Shame.",
   },
 };
 

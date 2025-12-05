@@ -1,11 +1,62 @@
 # BUILD LOG: Ghosted
 
 **Date**: December 4, 2024
-**Build Time**: ~45 minutes
-**Live URL**: https://ghosted-tracker-befxnt2l8-daxtynhs-projects.vercel.app
+**Build Time**: ~45 minutes (v1), +60 minutes (v2 community features)
+**Live URL**: https://ghosted-tracker.vercel.app (pending redeploy)
 **GitHub**: https://github.com/daxtynh/daily-build-ghosted
 
-## What Was Built
+## v2.0 - Community Features Update
+
+Transformed from a personal tracker into a **Glassdoor/Blind-style community platform** for exposing companies that ghost job applicants.
+
+### New Features
+
+1. **Wall of Shame Leaderboard** (`/leaderboard`)
+   - Companies ranked by ghost rate
+   - Search/filter companies
+   - Visual indicators for severity (color-coded ghost rates)
+   - Minimum 3 reports required to appear
+
+2. **Company Detail Pages** (`/company/[slug]`)
+   - Full stats breakdown (ghosted, rejected, responded, offers)
+   - Recent anonymous reports with details
+   - Average wait times
+   - Position breakdowns
+
+3. **Anonymous Report Submission** (`/report`)
+   - Company name, position, outcome
+   - Days waited, application source
+   - Optional notes/story
+   - Works in demo mode without database
+
+4. **Community Stats on Homepage**
+   - Total reports across all users
+   - Companies tracked
+   - Overall ghost rate
+   - "Worst Ghosters" preview section
+
+5. **API Routes**
+   - `GET /api/stats` - Community statistics
+   - `GET /api/companies` - Leaderboard with search
+   - `GET /api/companies/[slug]` - Company details + reports
+   - `POST /api/reports` - Submit new report
+
+### Architecture
+
+- **Database**: Vercel Postgres (ready to connect)
+- **Mock Data**: Realistic sample data for 20 companies when DB not connected
+- **Graceful Fallback**: App works fully with mock data, ready for real data when DB is added
+
+### Tech Additions
+
+- `@vercel/postgres` for database
+- New pages: `/leaderboard`, `/company/[slug]`, `/report`
+- API routes with mock data fallback
+- Types exported from `lib/db.ts`
+
+---
+
+## v1.0 - Personal Tracker
 
 **Ghosted** - A job application ghost tracker that helps job seekers:
 - Track which companies ghost them during the job search
@@ -32,6 +83,7 @@ From research:
 
 ## Features Shipped
 
+### Personal Tracker
 - Add job applications (company, position, date, notes)
 - Auto-detect ghosting after 14 days of no response
 - Manual status updates: Responded, Rejected, Ghosted
@@ -46,26 +98,55 @@ From research:
 - Data stored locally (privacy-first)
 - Vercel Analytics integrated
 
+### Community Features (v2)
+- Wall of Shame leaderboard
+- Company detail pages with reports
+- Anonymous report submission
+- Search companies
+- Community statistics
+
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
 - **Analytics**: Vercel Analytics
-- **Storage**: localStorage (no backend needed)
+- **Database**: Vercel Postgres (with mock data fallback)
+- **Storage**: localStorage (personal tracker), Postgres (community)
 - **Deployment**: Vercel
+
+## Environment Variables Needed
+
+```
+# For community features - add via `vercel env add`
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NO_SSL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+```
+
+To set up the database:
+1. Run `vercel link` and `vercel env pull`
+2. Create a Postgres database in Vercel dashboard
+3. Run the app - tables auto-create on first query
 
 ## What's Next (If Traction)
 
-1. **Company ghosting reports**: Crowdsourced data on which companies ghost most
-2. **Follow-up reminders**: Email/push notifications after X days
-3. **Export/share stats**: "My job search stats" shareable cards
-4. **Backend + auth**: Sync across devices, anonymous community data
-5. **Chrome extension**: Auto-detect applications from job boards
+1. **Database connection**: Add real Vercel Postgres
+2. **Social sharing**: Shareable company ghost rate cards
+3. **Email notifications**: Weekly digest of your applications
+4. **Chrome extension**: Auto-detect applications from job boards
+5. **Industry breakdowns**: Ghost rates by tech, finance, healthcare, etc.
+6. **Upvote/confirm reports**: Community validation
 
 ## Decisions Made
 
-- **No backend for MVP**: localStorage keeps it simple and privacy-first
+- **No backend for personal tracker**: localStorage keeps it simple and privacy-first
+- **Mock data for community**: Demonstrates the concept without requiring DB setup
 - **14-day ghost threshold**: Industry average is 21 days, 14 is aggressive but realistic
 - **No sign-up required**: Zero friction to start tracking
 - **Dark theme**: Matches the slightly sardonic "ghost" branding
@@ -75,12 +156,14 @@ From research:
 
 - The ghost branding worked well - floating ghost animations add personality
 - Stats section provides immediate value and validates the user's frustration
-- Email capture at bottom for future feature announcements
-- Build was smooth - no external APIs needed
+- Community features transform this from a tool into a platform
+- Mock data makes it feel alive immediately - real data will compound
 
 ## Metrics to Watch
 
 - Email signups
-- Number of applications tracked per user (via Analytics custom events - could add)
+- Report submissions
+- Leaderboard page views
+- Company page views
 - Return visitors
-- Social shares (if people share their ghost rate)
+- Social shares
